@@ -3,6 +3,9 @@ package com.likg.kafka;
 import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 
+/**
+ *
+ */
 public class ConsumerMsgTask implements Runnable {
     private KafkaStream m_stream;
     private int m_threadNumber;
@@ -14,7 +17,7 @@ public class ConsumerMsgTask implements Runnable {
 
     public void run() {
         ConsumerIterator<byte[], byte[]> it = m_stream.iterator();
-        while (it.hasNext()){
+        while (it.hasNext()) {
 
             String msg = new String(it.next().message());
             //System.out.println("msg====" + msg);
@@ -22,7 +25,7 @@ public class ConsumerMsgTask implements Runnable {
             Long gap = 0L;
             try {
                 gap = now - Long.parseLong(msg);
-            }catch (Exception e){
+            } catch (Exception e) {
             }
             //System.out.println("now====" + now);
             System.out.println("Thread " + m_threadNumber + "gap=========" + gap);

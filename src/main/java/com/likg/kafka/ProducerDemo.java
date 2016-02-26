@@ -1,14 +1,17 @@
 package com.likg.kafka;
 
-import java.util.*;
-
-import kafka.message.Message;
+import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
-import kafka.javaapi.producer.Producer;
 
-public class ProducerSample {
+import java.util.Date;
+import java.util.Properties;
+import java.util.Random;
 
+/**
+ *
+ */
+public class ProducerDemo {
 
     public static void main(String[] args) throws InterruptedException {
         Random rnd = new Random();
@@ -16,7 +19,7 @@ public class ProducerSample {
 
         // 设置配置属性
         Properties props = new Properties();
-        props.put("metadata.broker.list", "172.17.0.6:9092,172.17.0.7:9092,172.17.0.8:9092");
+        props.put("metadata.broker.list", "172.17.0.1:9092,172.17.0.2:9092,172.17.0.3:9092");
         props.put("serializer.class", "kafka.serializer.StringEncoder");
         // key.serializer.class默认为serializer.class
         props.put("key.serializer.class", "kafka.serializer.StringEncoder");
@@ -44,7 +47,7 @@ public class ProducerSample {
         // 产生并发送消息
         long start = System.currentTimeMillis();
         for (long i = 0; i < events; i++) {
-            System.out.println("i=========================="+i);
+            System.out.println("i==========================" + i);
             long runtime = new Date().getTime();
             String ip = "kk" + i;//rnd.nextInt(255);
             String msg = System.currentTimeMillis() + "";

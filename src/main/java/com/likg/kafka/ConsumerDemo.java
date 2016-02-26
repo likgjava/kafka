@@ -14,8 +14,6 @@ import kafka.javaapi.consumer.ConsumerConnector;
 
 /**
  * 详细可以参考：https://cwiki.apache.org/confluence/display/KAFKA/Consumer+Group+Example
- *
- * @author Fung
  */
 public class ConsumerDemo {
     private final ConsumerConnector consumer;
@@ -28,10 +26,13 @@ public class ConsumerDemo {
     }
 
     public void shutdown() {
-        if (consumer != null)
+        if (consumer != null) {
             consumer.shutdown();
-        if (executor != null)
+        }
+
+        if (executor != null) {
             executor.shutdown();
+        }
     }
 
     public void run(int numThreads) {
@@ -64,7 +65,7 @@ public class ConsumerDemo {
     }
 
     public static void main(String[] arg) {
-        String[] args = {"172.17.0.6:2181/config/mobile/mq", "group-cache4", "xm-msgbox", "1"};
+        String[] args = {"172.17.0.1:2181,172.17.0.2:2181,172.17.0.3:2181/config/mobile/mq", "group-cache4", "xm-msgbox", "1"};
         String zooKeeper = args[0];
         String groupId = args[1];
         String topic = args[2];
