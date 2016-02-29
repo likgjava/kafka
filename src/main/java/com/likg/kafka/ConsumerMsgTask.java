@@ -20,7 +20,7 @@ public class ConsumerMsgTask implements Runnable {
         while (it.hasNext()) {
 
             String msg = new String(it.next().message());
-            //System.out.println("msg====" + msg);
+            System.out.println("msg====" + msg);
             Long now = System.currentTimeMillis();
             Long gap = 0L;
             try {

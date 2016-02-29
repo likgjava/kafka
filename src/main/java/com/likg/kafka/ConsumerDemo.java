@@ -44,8 +44,6 @@ public class ConsumerDemo {
         // now launch all the threads
         executor = Executors.newFixedThreadPool(numThreads);
 
-        // now create an object to consume the messages
-        //
         int threadNumber = 0;
         for (final KafkaStream stream : streams) {
             executor.submit(new ConsumerMsgTask(stream, threadNumber));
@@ -60,16 +58,14 @@ public class ConsumerDemo {
         props.put("zookeeper.session.timeout.ms", "400");
         props.put("zookeeper.sync.time.ms", "200");
         props.put("auto.commit.interval.ms", "1000");
-
         return new ConsumerConfig(props);
     }
 
     public static void main(String[] arg) {
-        String[] args = {"172.17.0.1:2181,172.17.0.2:2181,172.17.0.3:2181/config/mobile/mq", "group-cache4", "xm-msgbox", "1"};
-        String zooKeeper = args[0];
-        String groupId = args[1];
-        String topic = args[2];
-        int threads = Integer.parseInt(args[3]);
+        String zooKeeper = "172.17.0.1:2181,172.17.0.2:2181,172.17.0.3:2181/config/mobile/mq";
+        String groupId = "group-cache4";
+        String topic = "xm-msgbox";
+        int threads = 1;
 
         ConsumerDemo demo = new ConsumerDemo(zooKeeper, groupId, topic);
         demo.run(threads);
@@ -77,7 +73,6 @@ public class ConsumerDemo {
         try {
             Thread.sleep(100000);
         } catch (InterruptedException ie) {
-
         }
         demo.shutdown();
     }
