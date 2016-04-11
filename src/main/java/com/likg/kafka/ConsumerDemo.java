@@ -18,7 +18,8 @@ import kafka.javaapi.consumer.ConsumerConnector;
 public class ConsumerDemo {
     private final ConsumerConnector consumer;
     private final String topic;
-    private ExecutorService executor;
+    private static ExecutorService executor;
+    public static long count;
 
     public ConsumerDemo(String a_zookeeper, String a_groupId, String a_topic) {
         consumer = Consumer.createJavaConsumerConnector(createConsumerConfig(a_zookeeper, a_groupId));
@@ -58,22 +59,34 @@ public class ConsumerDemo {
         props.put("zookeeper.session.timeout.ms", "400");
         props.put("zookeeper.sync.time.ms", "200");
         props.put("auto.commit.interval.ms", "1000");
+
+        //props.put("fetch.wait.max.ms", "1");
+        //props.put("fetch.min.bytes", "6553600");
+
         return new ConsumerConfig(props);
     }
 
     public static void main(String[] arg) {
-        String zooKeeper = "172.17.0.1:2181,172.17.0.2:2181,172.17.0.3:2181/config/mobile/mq";
-        String groupId = "group-cache4";
-        String topic = "xm-msgbox";
-        int threads = 1;
+        String zooKeeper = "172.17.0.9:2181,172.17.0.10:2181,172.17.0.11:2181/config/mobile/mq";
+        String topic = "msg_push";
+        String groupId = "group-push";
+        int threads = 5;
+
+        long time = System.currentTimeMillis();
 
         ConsumerDemo demo = new ConsumerDemo(zooKeeper, groupId, topic);
         demo.run(threads);
 
-        try {
-            Thread.sleep(100000);
-        } catch (InterruptedException ie) {
+        //启动一次顺序关闭，执行以前提交的任务，但不接受新任务
+        executor.shutdown();
+        //等待线程终止
+        while(!executor.isTerminated()){
         }
+
+        time = System.currentTimeMillis() - time;
+        System.out.println("times==ms===" + time);
         demo.shutdown();
+
+        //1574930
     }
 }

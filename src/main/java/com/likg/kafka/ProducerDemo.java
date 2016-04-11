@@ -15,11 +15,11 @@ public class ProducerDemo {
 
     public static void main(String[] args) throws InterruptedException {
         Random rnd = new Random();
-        int events = 100000000;
+        int events = 1000000;
 
         // 设置配置属性
         Properties props = new Properties();
-        props.put("metadata.broker.list", "172.17.0.1:9092,172.17.0.2:9092,172.17.0.3:9092");
+        props.put("metadata.broker.list", "172.17.0.9:9092,172.17.0.10:9092,172.17.0.11:9092");
         props.put("serializer.class", "kafka.serializer.StringEncoder");
         // key.serializer.class默认为serializer.class
         props.put("key.serializer.class", "kafka.serializer.StringEncoder");
@@ -33,13 +33,14 @@ public class ProducerDemo {
 
 
         // 异步模式下缓冲数据的最大时间。例如设置为100则会集合100ms内的消息后发送，这样会提高吞吐量，但是会增加消息发送的延时
-        props.put("queue.buffering.max.ms", "1000");
+        props.put("queue.buffering.max.ms", "10");
         // 异步模式下缓冲的最大消息数，同上
         //queue.buffering.max.messages = 10000
         // 异步模式下，消息进入队列的等待时间。若是设置为0，则消息不等待，如果进入不了队列，则直接被抛弃
         //queue.enqueue.timeout.ms = -1
         // 异步模式下，每次发送的消息数，当queue.buffering.max.messages或queue.buffering.max.ms满足条件之一时producer会触发发送。
-        //batch.num.messages=200
+        props.put("batch.num.messages", "200");
+
         ProducerConfig config = new ProducerConfig(props);
 
         // 创建producer
@@ -51,10 +52,11 @@ public class ProducerDemo {
             long runtime = new Date().getTime();
             String ip = "kk" + i;//rnd.nextInt(255);
             String msg = System.currentTimeMillis() + "";
+            msg = "异步模式下，消息进入队列的等待时间。若是设置为0，则消息不等待，如果进入不了队列，则直接被抛弃--" + msg;
             //如果topic不存在，则会自动创建，默认replication-factor为1，partitions为0
-            KeyedMessage<String, String> data = new KeyedMessage<String, String>("xm-msgbox", ip, msg);
+            KeyedMessage<String, String> data = new KeyedMessage<String, String>("topic-test", ip, msg);
             producer.send(data);
-            Thread.sleep(1000);
+            //Thread.sleep(1000);
         }
         System.out.println("耗时:" + (System.currentTimeMillis() - start));
         // 关闭producer

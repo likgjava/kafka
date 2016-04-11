@@ -19,16 +19,23 @@ public class ConsumerMsgTask implements Runnable {
         ConsumerIterator<byte[], byte[]> it = m_stream.iterator();
         while (it.hasNext()) {
 
-            String msg = new String(it.next().message());
-            System.out.println("msg====" + msg);
-            Long now = System.currentTimeMillis();
-            Long gap = 0L;
-            try {
-                gap = now - Long.parseLong(msg);
-            } catch (Exception e) {
-            }
+            it.next();
+            //String msg = new String(it.next().message());
+            //System.out.println(ConsumerDemo.count++);
+            //System.out.println("msg====" + msg);
+            //Long now = System.currentTimeMillis();
+            //Long gap = 0L;
+//            try {
+//                gap = now - Long.parseLong(msg);
+//            } catch (Exception e) {
+//            }
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             //System.out.println("now====" + now);
-            System.out.println("Thread " + m_threadNumber + "gap=========" + gap);
+            //System.out.println("Thread " + m_threadNumber + "gap=========" + gap);
         }
 
         System.out.println("Shutting down Thread: " + m_threadNumber);
