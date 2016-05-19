@@ -1,7 +1,9 @@
 package com.likg.kafka;
 
+import com.sankuai.xm.utils.net.ProtoUtil;
 import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
+import kafka.message.MessageAndMetadata;
 
 /**
  *
@@ -19,7 +21,11 @@ public class ConsumerMsgTask implements Runnable {
         ConsumerIterator<byte[], byte[]> it = m_stream.iterator();
         while (it.hasNext()) {
 
-            it.next();
+            byte[] next = it.next().message();
+
+            int uri = ProtoUtil.getProtoType(next);
+            System.out.println("uri===="+uri);
+
             //String msg = new String(it.next().message());
             //System.out.println(ConsumerDemo.count++);
             //System.out.println("msg====" + msg);
