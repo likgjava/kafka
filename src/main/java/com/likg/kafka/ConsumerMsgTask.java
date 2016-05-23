@@ -21,10 +21,12 @@ public class ConsumerMsgTask implements Runnable {
         ConsumerIterator<byte[], byte[]> it = m_stream.iterator();
         while (it.hasNext()) {
 
+            System.out.println("11111111111111111");
             byte[] next = it.next().message();
+            System.out.println("msg===" + new String(next));
 
-            int uri = ProtoUtil.getProtoType(next);
-            System.out.println("uri===="+uri);
+            //int uri = ProtoUtil.getProtoType(next);
+            //System.out.println("uri===="+uri);
 
             //String msg = new String(it.next().message());
             //System.out.println(ConsumerDemo.count++);

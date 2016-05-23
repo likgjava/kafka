@@ -1,5 +1,10 @@
 package com.likg.kafka;
 
+import kafka.consumer.Consumer;
+import kafka.consumer.ConsumerConfig;
+import kafka.consumer.KafkaStream;
+import kafka.javaapi.consumer.ConsumerConnector;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,21 +12,16 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import kafka.consumer.Consumer;
-import kafka.consumer.ConsumerConfig;
-import kafka.consumer.KafkaStream;
-import kafka.javaapi.consumer.ConsumerConnector;
-
 /**
  * 详细可以参考：https://cwiki.apache.org/confluence/display/KAFKA/Consumer+Group+Example
  */
-public class ConsumerDemo {
+public class ConsumerDemo3 {
     private final ConsumerConnector consumer;
     private final String topic;
     private static ExecutorService executor;
     public static long count;
 
-    public ConsumerDemo(String a_zookeeper, String a_groupId, String a_topic) {
+    public ConsumerDemo3(String a_zookeeper, String a_groupId, String a_topic) {
         consumer = Consumer.createJavaConsumerConnector(createConsumerConfig(a_zookeeper, a_groupId));
         this.topic = a_topic;
     }
@@ -67,14 +67,14 @@ public class ConsumerDemo {
     }
 
     public static void main(String[] arg) {
-        String zooKeeper = "192.168.1.95:2181";
-        String topic = "xm-msgbox";
-        String groupId = "group-1";
-        int threads = 5;
+        String zooKeeper = "172.17.0.38:2181/config/mobile/mq";
+        String topic = "testkfk";
+        String groupId = "group-kfk";
+        int threads = 1;
 
         long time = System.currentTimeMillis();
 
-        ConsumerDemo demo = new ConsumerDemo(zooKeeper, groupId, topic);
+        ConsumerDemo3 demo = new ConsumerDemo3(zooKeeper, groupId, topic);
         demo.run(threads);
 
         //启动一次顺序关闭，执行以前提交的任务，但不接受新任务

@@ -12,7 +12,6 @@ import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
 
-import java.net.DatagramPacket;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
@@ -20,7 +19,7 @@ import java.util.Random;
 /**
  *
  */
-public class ProducerDemo {
+public class ProducerDemo2 {
 
     public static void main(String[] args) throws InterruptedException {
         Random rnd = new Random();
@@ -28,7 +27,7 @@ public class ProducerDemo {
 
         // 设置配置属性
         Properties props = new Properties();
-        props.put("metadata.broker.list", "192.168.1.95:9092");
+        props.put("metadata.broker.list", "192.168.1.147:9092");
         props.put("serializer.class", "kafka.serializer.StringEncoder");
         // key.serializer.class默认为serializer.class
         props.put("key.serializer.class", "kafka.serializer.StringEncoder");
@@ -97,7 +96,7 @@ public class ProducerDemo {
             Object msgObj = buf;
 
             //如果topic不存在，则会自动创建，默认replication-factor为1，partitions为0
-            KeyedMessage data = new KeyedMessage("xm-msgbox", ip, "aaaaaaaaaaa");
+            KeyedMessage data = new KeyedMessage("xm-msgbox", ip, "bbbbbbb");
             producer.send(data);
             //Thread.sleep(1000);
         }

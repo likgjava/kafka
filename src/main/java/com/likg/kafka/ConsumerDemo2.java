@@ -1,5 +1,10 @@
 package com.likg.kafka;
 
+import kafka.consumer.Consumer;
+import kafka.consumer.ConsumerConfig;
+import kafka.consumer.KafkaStream;
+import kafka.javaapi.consumer.ConsumerConnector;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,21 +12,16 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import kafka.consumer.Consumer;
-import kafka.consumer.ConsumerConfig;
-import kafka.consumer.KafkaStream;
-import kafka.javaapi.consumer.ConsumerConnector;
-
 /**
  * 详细可以参考：https://cwiki.apache.org/confluence/display/KAFKA/Consumer+Group+Example
  */
-public class ConsumerDemo {
+public class ConsumerDemo2 {
     private final ConsumerConnector consumer;
     private final String topic;
     private static ExecutorService executor;
     public static long count;
 
-    public ConsumerDemo(String a_zookeeper, String a_groupId, String a_topic) {
+    public ConsumerDemo2(String a_zookeeper, String a_groupId, String a_topic) {
         consumer = Consumer.createJavaConsumerConnector(createConsumerConfig(a_zookeeper, a_groupId));
         this.topic = a_topic;
     }
@@ -56,7 +56,7 @@ public class ConsumerDemo {
         Properties props = new Properties();
         props.put("zookeeper.connect", a_zookeeper);
         props.put("group.id", a_groupId);
-        props.put("zookeeper.session.timeout.ms", "400");
+        props.put("zookeeper.session.timeout.ms", "4000");
         props.put("zookeeper.sync.time.ms", "200");
         props.put("auto.commit.interval.ms", "1000");
 
@@ -67,14 +67,14 @@ public class ConsumerDemo {
     }
 
     public static void main(String[] arg) {
-        String zooKeeper = "192.168.1.95:2181";
+        String zooKeeper = "192.168.1.147:2181";
         String topic = "xm-msgbox";
-        String groupId = "group-1";
-        int threads = 5;
+        String groupId = "group-gyc";
+        int threads = 1;
 
         long time = System.currentTimeMillis();
 
-        ConsumerDemo demo = new ConsumerDemo(zooKeeper, groupId, topic);
+        ConsumerDemo2 demo = new ConsumerDemo2(zooKeeper, groupId, topic);
         demo.run(threads);
 
         //启动一次顺序关闭，执行以前提交的任务，但不接受新任务
