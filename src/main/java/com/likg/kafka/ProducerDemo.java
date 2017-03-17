@@ -28,7 +28,7 @@ public class ProducerDemo {
 
         // 设置配置属性
         Properties props = new Properties();
-        props.put("metadata.broker.list", "192.168.1.95:9092");
+        props.put("metadata.broker.list", "192.168.1.238:9092");
         props.put("serializer.class", "kafka.serializer.StringEncoder");
         // key.serializer.class默认为serializer.class
         props.put("key.serializer.class", "kafka.serializer.StringEncoder");
@@ -96,9 +96,25 @@ public class ProducerDemo {
 
             Object msgObj = buf;
 
+
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("btype", "sendsmscode");
+            JSONObject data = new JSONObject();
+            data.put("phone", "13041092162");
+            data.put("code", "1234");
+            jsonObj.put("data", data);
+
+            JSONObject toKafkaData = new JSONObject();
+            toKafkaData.put("uid", "100144");
+            toKafkaData.put("netName", "1111");
+            toKafkaData.put("netMac", "bbbbb");
+            JSONObject kdata = new JSONObject();
+            kdata.put("btype", "reportNetInfo");
+            kdata.put("data", toKafkaData);
+
             //如果topic不存在，则会自动创建，默认replication-factor为1，partitions为0
-            KeyedMessage data = new KeyedMessage("xm-msgbox", ip, "aaaaaaaaaaa");
-            producer.send(data);
+            KeyedMessage data2 = new KeyedMessage("slow", ip, kdata.toJSONString());
+            producer.send(data2);
             //Thread.sleep(1000);
         }
         System.out.println("耗时:" + (System.currentTimeMillis() - start));
