@@ -67,9 +67,15 @@ public class ConsumerDemo3 {
     }
 
     public static void main(String[] arg) {
-        String zooKeeper = "172.17.0.38:2181/config/mobile/mq";
-        String topic = "testkfk";
-        String groupId = "group-kfk";
+//        String zooKeeper = "172.17.0.38:2181/config/mobile/mq";
+//        String topic = "testkfk";
+//        String groupId = "group-kfk";
+
+
+        String zooKeeper = "192.168.1.238:2181/config/mobile/mq";
+        String topic = "business";
+        String groupId = "group-business-test1";
+
         int threads = 1;
 
         long time = System.currentTimeMillis();

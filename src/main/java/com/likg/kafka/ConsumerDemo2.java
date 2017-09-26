@@ -67,9 +67,9 @@ public class ConsumerDemo2 {
     }
 
     public static void main(String[] arg) {
-        String zooKeeper = "192.168.1.147:2181";
-        String topic = "xm-msgbox";
-        String groupId = "group-gyc";
+        String zooKeeper = "192.168.1.238:2181/config/mobile/mq";
+        String topic = "stat";
+        String groupId = "group-stat2";
         int threads = 1;
 
         long time = System.currentTimeMillis();
